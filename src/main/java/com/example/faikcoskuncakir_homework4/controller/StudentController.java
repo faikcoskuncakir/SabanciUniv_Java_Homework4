@@ -2,41 +2,55 @@ package com.example.faikcoskuncakir_homework4.controller;
 
 import com.example.faikcoskuncakir_homework4.model.Student;
 import com.example.faikcoskuncakir_homework4.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
+@RequestMapping("/students")
 public class StudentController {
 
-    @Autowired
-    private StudentService studentService;
+    private final StudentService studentService;
 
-    @GetMapping("/students")
-    public List<Student> getAllStudents(){
-        return studentService.getAllStudents();
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
     }
 
-    @GetMapping("/students/{id}")
-    public Student findStudentByStudentId(@PathVariable int id){
-        return studentService.findStudentByStudentId(id);
+    @PostMapping // Add new student to database
+    public ResponseEntity<Student> addNewStudent(@RequestBody Student student) {
+        return new ResponseEntity<>(studentService.addNewStudent(student), CREATED);
     }
 
-    @PostMapping("/students")
-    public Student addNewStudent(@RequestBody Student student){
-        return studentService.addNewStudent(student);
+    @GetMapping // Get all students from database
+    public ResponseEntity<List<Student>> getAllStudents() {
+        return new ResponseEntity<>(studentService.getAll(), OK);
     }
 
-    @PutMapping("/students")
-    public Student updateExistingStudent(@RequestBody Student student){
-        return studentService.updateExistingStudent(student);
+    @GetMapping("/{id}") // Get a student with specific ID from database
+    public ResponseEntity<Student> getAllStudents(@PathVariable Integer id) {
+        return new ResponseEntity<>(studentService.getById(id), OK);
     }
 
-    @DeleteMapping("/students")
-    public void deleteExistingStudent(@RequestBody Student student){
-        studentService.deleteExistingStudent(student);
+    @PutMapping // Update a student data on database
+    public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
+        return new ResponseEntity<>(studentService.updateStudent(student), OK);
     }
+
+    @DeleteMapping // Delete a student data from database
+    public ResponseEntity<Void> deleteStudent(@RequestBody Student student) {
+        studentService.deleteStudent(student);
+        return new ResponseEntity<>(OK);
+    }
+
+    @DeleteMapping("/{id}") // Delete a student with specific ID from database
+    public ResponseEntity<Void> deleteStudentById(@PathVariable Integer id) {
+        studentService.deleteStudentById(id);
+        return new ResponseEntity<>(OK);
+    }
+
+
 }
-

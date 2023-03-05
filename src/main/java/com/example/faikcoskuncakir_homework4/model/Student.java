@@ -1,27 +1,37 @@
 package com.example.faikcoskuncakir_homework4.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDate;
 
 @Entity
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
-    public String firstName;
-    public String lastName;
-    public int age;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
-    public Student(String firstName, String lastName, int age) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.age = age;
+    private String name;
+    private String surname;
+    private String email;
+    private String gpa;
+
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate registrationDate;
+
+    public Student(String name, String surname, String email, String gpa, LocalDate registrationDate) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.gpa = gpa;
+        this.registrationDate = registrationDate;
     }
 
     public Student() {
+
     }
 
     public int getId() {
@@ -32,51 +42,56 @@ public class Student {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
-    public int getAge() {
-        return age;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setEmail(String email) {
+        this.email = email;
     }
+
+    public String getGpa() {
+        return gpa;
+    }
+
+    public void setGpa(String gpa) {
+        this.gpa = gpa;
+    }
+
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
 
     @Override
     public String toString() {
         return "Student{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", age=" + age +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", gpa=" + gpa +
+                ", registrationDate=" + registrationDate +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Student student)) return false;
-
-        return id == student.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
     }
 }
 

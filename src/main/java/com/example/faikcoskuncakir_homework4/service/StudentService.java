@@ -2,37 +2,37 @@ package com.example.faikcoskuncakir_homework4.service;
 
 import com.example.faikcoskuncakir_homework4.model.Student;
 import com.example.faikcoskuncakir_homework4.repository.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+
 public class StudentService {
-    @Autowired
-    private StudentRepository studentRepository;
 
+    private final StudentRepository studentRepository;
+
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
     public Student addNewStudent(Student student) {
-
         return studentRepository.save(student);
     }
-
-    public List<Student> getAllStudents() {
+    public List<Student> getAll() {
         return studentRepository.findAll();
     }
-
-    public Student updateExistingStudent(Student student) {
+    public Student getById(Integer id) {
+        return studentRepository.
+                findById((id)).
+                orElseThrow(() -> new RuntimeException("Student not found."));
+    }
+    public Student updateStudent(Student student) {
         return studentRepository.save(student);
     }
-
-    public void deleteExistingStudent(Student student) {
+    public void deleteStudent(Student student) {
         studentRepository.delete(student);
     }
-
-    public Student findStudentByStudentId(int id){
-        Student student=studentRepository.findStudentByStudentId(id);
-        return student;
+    public void deleteStudentById(Integer id) {
+        studentRepository.deleteById(id);
     }
 }
-
